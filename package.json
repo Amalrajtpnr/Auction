@@ -1,0 +1,20 @@
+{
+  "name": "auction",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "concurrently \"npm run dev:client\" \"npm run dev:server\"",
+    "dev:client": "cd client && npm i && npm run dev",
+    "dev:server": "cd backend && npm i && npm run server"
+    },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "vscode": "^1.1.37"
+  },
+  "devDependencies": {
+    "concurrently": "^8.1.0"
+  }
+}
