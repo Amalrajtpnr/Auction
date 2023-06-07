@@ -17,6 +17,8 @@ function ROOM({ roomId }: { roomId: any }) {
   const [activeBidder, setactiveBidder] = useState<any>("");
   const [seconds, setSeconds] = useState(0);
   const [remainingTime, setRemainingTime] = useState<any>(auction.endingTime);
+  const [highestBidder, setHighestBidder] = useState<any>("");
+
 
   // useEffect(() => {
   //   if (seconds > 0) {
@@ -34,6 +36,17 @@ function ROOM({ roomId }: { roomId: any }) {
     const data = await res.data;
     if (!data.error) {
       setAuction(data);
+      const sorted = data?.participants?.sort((a:any,b:any) => {
+        if(a.bidAmount > b.bidAmount){
+          return -1
+        }
+        else {
+          return 1
+        }
+      })
+      if(sorted[0]){
+        setHighestBidder(sorted[0].userId)
+      }
       setRemainingTime(new Date(data.endingTime).getTime() - Date.now());
     } else {
       setAuction({});
@@ -150,7 +163,9 @@ function ROOM({ roomId }: { roomId: any }) {
                   >
                     <PriceCard
                       participant={participant}
-                      index={Math.round(auction?.participants?.length % 10)}
+                      index={Math.round(i+1 % 10)}
+                      isHighest={participant.userId === highestBidder}
+                      isActive={participant.userId === activeBidder}
                     />
                     <div className="w-[90%] h-[1px] bg-[#959292]"></div>
                   </div>
